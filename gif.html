@@ -1,0 +1,70 @@
+<!DOCTYPE html>
+    <html>
+    <head>
+        <title>Get Gif</title>
+    </head>
+    <body>
+        <form id="gif">
+            <input type="text" class="search" placeholder="Search..">
+            <input type="submit" value="Go">
+        </form>
+        <div class="results"></div>
+        <style type="text/css">
+           input[type=text] {
+                  width: 30%;
+                  box-sizing: border-box;
+                  border: 2px solid #ccc;
+                  border-radius: 4px;
+                  font-size: 16px;
+                  background-color: white;
+                  background-image: url('searchicon.png');
+                  background-position: 10px 10px; 
+                  background-repeat: no-repeat;
+                  padding: 12px 20px 12px 40px;
+            }
+
+            input[type=submit]{
+                  width: 20%;
+                  padding: 12px 20px;
+                  margin: 8px 0;
+                  box-sizing: border-box;
+                  background-color: lightblue;
+                  border: none;
+                  font-family: Impact, fantasy;
+                  color: white;
+                  font-size: 14pt;
+            }
+        </style>
+        <script>
+            var gif = document.getElementById('gif');
+            gif.addEventListener('submit',getGiphs);
+            function getGiphs(a){
+              a.preventDefault();
+              const searchTerm = document.querySelector(".search").value;
+              fetch(`https://api.giphy.com/v1/gifs/search?&q=${searchTerm}&limit=100&api_key=yz0CxTnOW5H6Xx8poY1d29pMks8UHt5H`)
+              .then((response) => {return response.json(); })
+              .then((resp => {
+                  let dataArray = resp.data
+                  console.log(dataArray);
+                  showGiphs(dataArray);
+              }))
+              .catch(err => console.log(err)); 
+            }
+
+            function showGiphs(data){
+              var result = document.getElementsByClassName('results');
+              var ret = `<div class="container">`;
+              data.forEach((giphData) => {
+                ret += `
+                  <img src="${giphData.images.fixed_width.url}" />
+                `;
+              });
+              result[0].innerHTML = ret;
+            }
+                    </script>
+                </body>
+                </html>
+
+
+
+<!--yz0CxTnOW5H6Xx8poY1d29pMks8UHt5H -->
